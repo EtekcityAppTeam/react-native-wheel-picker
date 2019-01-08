@@ -8,5 +8,6 @@ import {
 } from 'react-native';
 
 import WheelCurvedPicker from './WheelCurvedPicker'
-import VSPicker from '../../app/Commons/Views/pickers/VSPicker'
+import VSPicker from './VSPicker'
 module.exports = (Platform.OS === 'ios' ? VSPicker : WheelCurvedPicker)
+

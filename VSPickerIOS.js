@@ -13,12 +13,14 @@
 
 'use strict';
 
-const React = require('React');
-const ReactNative = require('ReactNative');
-const StyleSheet = require('StyleSheet');
-const View = require('View');
-const processColor = require('processColor');
-const requireNativeComponent = require('requireNativeComponent');
+import React from 'react';
+import {  
+  StyleSheet,
+  View,
+  requireNativeComponent,
+  processColor
+} from 'react-native';
+
 
 import type {SyntheticEvent} from 'CoreEventTypes';
 import type {ColorValue} from 'StyleSheetTypes';
