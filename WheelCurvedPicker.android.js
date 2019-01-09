@@ -23,6 +23,7 @@ const WheelCurvedPickerNativeInterface = {
 		onValueChange: PropTypes.func,
 		selectedValue: PropTypes.any,
 		selectedIndex: PropTypes.number,
+		itemLineColor: ColorPropType,
 	}
 }
 
@@ -50,6 +51,8 @@ class WheelCurvedPicker extends React.Component {
 		selectedValue: PropTypes.any,
 
 		selectedIndex: PropTypes.number,
+
+		itemLineColor: ColorPropType,
 	}
 
 	constructor(props){
@@ -78,9 +81,10 @@ class WheelCurvedPicker extends React.Component {
 
 		var textSize = props.itemStyle.fontSize
 		var textColor = props.itemStyle.color
-	    var currentTextColor=props.itemStyle.currentTextColor
+		var currentTextColor=props.itemStyle.currentTextColor
+		var itemLineColor = props.itemStyle.itemLineColor;
 
-		return {selectedIndex, items, textSize, textColor,currentTextColor};
+		return {selectedIndex, items, textSize, textColor,currentTextColor,itemLineColor};
 	}
 
 	_onValueChange = (e) => {
@@ -97,7 +101,8 @@ class WheelCurvedPicker extends React.Component {
 				textColor={this.state.textColor}
 				currentTextColor={this.state.currentTextColor}
 				textSize={this.state.textSize}
-				selectedIndex={parseInt(this.state.selectedIndex)} />;
+				selectedIndex={parseInt(this.state.selectedIndex)}
+				itemLineColor={this.state.itemLineColor} />;
 	}
 }
 

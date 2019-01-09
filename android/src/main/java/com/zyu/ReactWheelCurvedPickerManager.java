@@ -31,6 +31,7 @@ public class ReactWheelCurvedPickerManager extends SimpleViewManager<ReactWheelC
         picker.setCurrentTextColor(Color.parseColor("#333333"));
         picker.setTextSize(DEFAULT_TEXT_SIZE);
         picker.setItemSpace(DEFAULT_ITEM_SPACE);
+        picker.setItemLineColor(null);
 
         return picker;
     }
@@ -91,6 +92,13 @@ public class ReactWheelCurvedPickerManager extends SimpleViewManager<ReactWheelC
     public void setItemSpace(ReactWheelCurvedPicker picker, int space) {
         if (picker != null) {
             picker.setItemSpace((int) PixelUtil.toPixelFromDIP(space));
+        }
+    }
+
+    @ReactProp(name="itemLineColor",customType ="Color")
+    public void setItemLineColor(ReactWheelCurvedPicker picker, Integer color) {
+        if (picker != null) {
+            picker.setItemLineColor(color);
         }
     }
 
