@@ -16,22 +16,10 @@ import {
   Platform,
   UnimplementedView,
   StyleSheet,
-  ViewPropTypes
+  ViewPropTypes,
  } from 'react-native';
 import PropTypes from 'prop-types'
 
-// const {TextStylePropTypes,StyleSheetPropType,ViewStylePropTypes} = StyleSheet;
- // const StyleSheetPropType = require('StyleSheetPropType');
-// const TextStylePropTypes = require('TextStylePropTypes');
-// const UnimplementedView = require('UnimplementedView');
-// const ViewStylePropTypes = require('ViewStylePropTypes');
-
-// const itemStylePropType = StyleSheetPropType(TextStylePropTypes);
-
-// const pickerStyleType = StyleSheetPropType({
-//   ...ViewStylePropTypes,
-//   color: ColorPropType,
-// });
 
 const MODE_DIALOG = 'dialog';
 const MODE_DROPDOWN = 'dropdown';
@@ -39,8 +27,27 @@ const MODE_DROPDOWN = 'dropdown';
 /**
  * Individual selectable item in a Picker.
  */
-
 class PickerItem extends React.Component {
+  static propTypes = {
+    /**
+    * Text to display for this item.
+    */
+    label: PropTypes.string.isRequired,
+    /**
+      * The value to be passed to picker's `onValueChange` callback when
+      * this item is selected. Can be a string or an integer.
+      */
+    value: PropTypes.any,
+    /**
+      * Color of this item's text.
+      * @platform android
+      */
+    color: ColorPropType,
+    /**
+      * Used to locate the item in end-to-end tests.
+      */
+    testID: PropTypes.string,
+  }
 
   render() {
     // The items are not rendered directly
@@ -48,26 +55,7 @@ class PickerItem extends React.Component {
   }
 
 }
-PickerItem.propTypes = {
-  /**
-  * Text to display for this item.
-  */
- label: PropTypes.string.isRequired,
- /**
-  * The value to be passed to picker's `onValueChange` callback when
-  * this item is selected. Can be a string or an integer.
-  */
- value: PropTypes.any,
- /**
-  * Color of this item's text.
-  * @platform android
-  */
- color: ColorPropType,
- /**
-  * Used to locate the item in end-to-end tests.
-  */
- testID: PropTypes.string,
-}
+
 
 /**
  * Renders the native picker component on iOS and Android. Example:
@@ -80,6 +68,55 @@ PickerItem.propTypes = {
  *     </Picker>
  */
 class VSPicker extends React.Component{
+
+
+  static propTypes = {
+    style: ViewPropTypes.style,
+    /**
+     * Value matching value of one of the items. Can be a string or an integer.
+     */
+    selectedValue: PropTypes.any,
+    /**
+     * Callback for when an item is selected. This is called with the following parameters:
+     *   - `itemValue`: the `value` prop of the item that was selected
+     *   - `itemPosition`: the index of the selected item in this picker
+     */
+    onValueChange: PropTypes.func,
+    /**
+     * If set to false, the picker will be disabled, i.e. the user will not be able to make a
+     * selection.
+     * @platform android
+     */
+    enabled: PropTypes.bool,
+    /**
+     * On Android, specifies how to display the selection items when the user taps on the picker:
+     *
+     *   - 'dialog': Show a modal dialog. This is the default.
+     *   - 'dropdown': Shows a dropdown anchored to the picker view
+     *
+     * @platform android
+     */
+    mode: PropTypes.oneOf(['dialog', 'dropdown']),
+    /**
+     * Style to apply to each of the item labels.
+     * @platform ios
+     */
+    itemStyle: PropTypes.object,
+    /**
+     * Prompt string for this picker, used on Android in dialog mode as the title of the dialog.
+     * @platform android
+     */
+    prompt: PropTypes.string,
+    /**
+     * Used to locate this view in end-to-end tests.
+     */
+    testID: PropTypes.string,
+  }
+
+  static defaultProps = {
+    mode: MODE_DIALOG,
+  }
+
   /**
    * On Android, display the options in a dialog.
    */
@@ -91,7 +128,6 @@ class VSPicker extends React.Component{
   static MODE_DROPDOWN = MODE_DROPDOWN;
 
   static Item = PickerItem;
-
   render() {
     if (Platform.OS === 'ios') {
       // $FlowFixMe found when converting React.createClass to ES6
@@ -104,51 +140,5 @@ class VSPicker extends React.Component{
 }
 
 
-VSPicker.defaultProps = {
-  mode: MODE_DIALOG,
-}
-
-VSPicker.propTypes = {
-  style: ViewPropTypes.style,
-  /**
-   * Value matching value of one of the items. Can be a string or an integer.
-   */
-  selectedValue: PropTypes.any,
-  /**
-   * Callback for when an item is selected. This is called with the following parameters:
-   *   - `itemValue`: the `value` prop of the item that was selected
-   *   - `itemPosition`: the index of the selected item in this picker
-   */
-  onValueChange: PropTypes.func,
-  /**
-   * If set to false, the picker will be disabled, i.e. the user will not be able to make a
-   * selection.
-   * @platform android
-   */
-  enabled: PropTypes.bool,
-  /**
-   * On Android, specifies how to display the selection items when the user taps on the picker:
-   *
-   *   - 'dialog': Show a modal dialog. This is the default.
-   *   - 'dropdown': Shows a dropdown anchored to the picker view
-   *
-   * @platform android
-   */
-  mode: PropTypes.oneOf(['dialog', 'dropdown']),
-  /**
-   * Style to apply to each of the item labels.
-   * @platform ios
-   */
-  itemStyle: ViewPropTypes.style,
-  /**
-   * Prompt string for this picker, used on Android in dialog mode as the title of the dialog.
-   * @platform android
-   */
-  prompt: PropTypes.string,
-  /**
-   * Used to locate this view in end-to-end tests.
-   */
-  testID: PropTypes.string,
-}
 
 module.exports = VSPicker;
