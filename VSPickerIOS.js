@@ -49,6 +49,8 @@ type VSPickerIOSType = Class<
       onStartShouldSetResponder: () => boolean,
       selectedIndex: number,
       style?: ?TextStyleProp,
+      itemSpace: number,
+      separatorColor: ColorValue,
     |}>,
   >,
 >;
@@ -66,6 +68,8 @@ type Props = $ReadOnly<{|
   onChange?: ?(event: PickerIOSChangeEvent) => mixed,
   onValueChange?: ?(newValue: any, newIndex: number) => mixed,
   selectedValue: any,
+  itemSpace: any,
+  separatorColor: ColorValue,
 |}>;
 
 type State = {|
@@ -116,8 +120,10 @@ class VSPickerIOS extends React.Component<Props, State> {
           ref={picker => {
             this._picker = picker;
           }}
-          style={[styles.pickerIOS, this.props.itemStyle]}
+          style={[this.props.style, this.props.itemStyle]}
           items={this.state.items}
+          itemSpace={this.props.itemSpace}
+          separatorColor={this.props.separatorColor}
           selectedIndex={this.state.selectedIndex}
           onChange={this._onChange}
           onStartShouldSetResponder={() => true}
@@ -155,13 +161,13 @@ class VSPickerIOS extends React.Component<Props, State> {
   };
 }
 
-const styles = StyleSheet.create({
-  pickerIOS: {
-    // The picker will conform to whatever width is given, but we do
-    // have to set the component's height explicitly on the
-    // surrounding view to ensure it gets rendered.
-    height: 216,
-  },
-});
+// const styles = StyleSheet.create({
+//   pickerIOS: {
+//     // The picker will conform to whatever width is given, but we do
+//     // have to set the component's height explicitly on the
+//     // surrounding view to ensure it gets rendered.
+//     height: 216,
+//   },
+// });
 
 module.exports = VSPickerIOS;

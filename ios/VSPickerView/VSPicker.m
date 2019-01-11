@@ -15,13 +15,14 @@
 
 @implementation VSPicker
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame {
   if ((self = [super initWithFrame:frame])) {
     _color = [UIColor blackColor];
     _font = [UIFont systemFontOfSize:21]; // TODO: selected title default should be 23.5
     _selectedIndex = NSNotFound;
     _textAlign = NSTextAlignmentCenter;
+    _itemSpace = 32;
+    _separatorColor = [UIColor whiteColor];
     self.delegate = self;
     [self selectRow:0 inComponent:0 animated:YES]; // Workaround for missing selection indicator lines (see https://stackoverflow.com/questions/39564660/uipickerview-selection-indicator-not-visible-in-ios10)
   }
@@ -30,14 +31,12 @@
 
 RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
 
-- (void)setItems:(NSArray<NSDictionary *> *)items
-{
+- (void)setItems:(NSArray<NSDictionary *> *)items {
   _items = [items copy];
   [self setNeedsLayout];
 }
 
-- (void)setSelectedIndex:(NSInteger)selectedIndex
-{
+- (void)setSelectedIndex:(NSInteger)selectedIndex {
   if (_selectedIndex != selectedIndex) {
     BOOL animated = _selectedIndex != NSNotFound; // Don't animate the initial value
     _selectedIndex = selectedIndex;
@@ -47,16 +46,22 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
   }
 }
 
+- (void)setItemSpace:(CGFloat)itemSpace {
+  _itemSpace = itemSpace;
+}
+
+- (void)setSeparatorColor:(UIColor *)separatorColor {
+  _separatorColor = separatorColor;
+}
+
 #pragma mark - UIPickerViewDataSource protocol
 
-- (NSInteger)numberOfComponentsInPickerView:(__unused UIPickerView *)pickerView
-{
+- (NSInteger)numberOfComponentsInPickerView:(__unused UIPickerView *)pickerView {
   return 1;
 }
 
 - (NSInteger)pickerView:(__unused UIPickerView *)pickerView
-numberOfRowsInComponent:(__unused NSInteger)component
-{
+numberOfRowsInComponent:(__unused NSInteger)component {
   return _items.count;
 }
 
@@ -64,20 +69,24 @@ numberOfRowsInComponent:(__unused NSInteger)component
 
 - (NSString *)pickerView:(__unused UIPickerView *)pickerView
              titleForRow:(NSInteger)row
-            forComponent:(__unused NSInteger)component
-{
+            forComponent:(__unused NSInteger)component {
   return [RCTConvert NSString:_items[row][@"label"]];
 }
 
-//- (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component {
-//  return _font.pointSize + 19;
-//}
+- (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component {
+    return _itemSpace;
+}
 
 - (UIView *)pickerView:(UIPickerView *)pickerView
             viewForRow:(NSInteger)row
           forComponent:(NSInteger)component
-           reusingView:(UILabel *)label
-{
+           reusingView:(UILabel *)label {
+  // 修改分割线颜色
+  for(UIView *singleLine in pickerView.subviews) {
+      if (singleLine.frame.size.height < 1) {
+          singleLine.backgroundColor = _separatorColor;
+      }
+  }
   if (!label) {
     label = [[UILabel alloc] initWithFrame:(CGRect){
       CGPointZero,
@@ -87,19 +96,15 @@ numberOfRowsInComponent:(__unused NSInteger)component
       }
     }];
   }
-
   label.font = _font;
-
   label.textColor = [RCTConvert UIColor:_items[row][@"textColor"]] ?: _color;
-
   label.textAlignment = _textAlign;
   label.text = [self pickerView:pickerView titleForRow:row forComponent:component];
   return label;
 }
 
 - (void)pickerView:(__unused UIPickerView *)pickerView
-      didSelectRow:(NSInteger)row inComponent:(__unused NSInteger)component
-{
+      didSelectRow:(NSInteger)row inComponent:(__unused NSInteger)component {
   _selectedIndex = row;
   if (_onChange && _items.count > (NSUInteger)row) {
     _onChange(@{
