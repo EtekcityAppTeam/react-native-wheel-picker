@@ -81,6 +81,7 @@ type ItemProps = $ReadOnly<{|
   label: ?Label,
   value?: ?any,
   color?: ?ColorValue,
+  currentTextColor: ?ColorValue,
 |}>;
 
 const PickerIOSItem = (props: ItemProps) => {
@@ -124,6 +125,7 @@ class VSPickerIOS extends React.Component<Props, State> {
           items={this.state.items}
           itemSpace={this.props.itemSpace}
           separatorColor={this.props.separatorColor}
+          currentTextColor={this.props.itemStyle.currentTextColor}
           selectedIndex={this.state.selectedIndex}
           onChange={this._onChange}
           onStartShouldSetResponder={() => true}

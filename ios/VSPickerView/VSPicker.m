@@ -106,6 +106,10 @@ numberOfRowsInComponent:(__unused NSInteger)component {
 - (void)pickerView:(__unused UIPickerView *)pickerView
       didSelectRow:(NSInteger)row inComponent:(__unused NSInteger)component {
   _selectedIndex = row;
+  if (_currentTextColor) {
+     UILabel * l = [pickerView viewForRow:row forComponent:component];
+     l.textColor = _currentTextColor;
+  }
   if (_onChange && _items.count > (NSUInteger)row) {
     _onChange(@{
       @"newIndex": @(row),

@@ -18,6 +18,7 @@
 @property (nonatomic, assign) NSTextAlignment textAlign;
 @property (nonatomic, assign) CGFloat itemSpace;
 @property (nonatomic, strong) UIColor *separatorColor;
+@property (nonatomic, strong) UIColor *currentTextColor;
 
 
 @property (nonatomic, copy) RCTBubblingEventBlock onChange;

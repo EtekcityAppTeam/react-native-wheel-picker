@@ -27,6 +27,7 @@ RCT_EXPORT_VIEW_PROPERTY(color, UIColor)
 RCT_EXPORT_VIEW_PROPERTY(textAlign, NSTextAlignment)
 RCT_EXPORT_VIEW_PROPERTY(itemSpace, CGFloat)
 RCT_EXPORT_VIEW_PROPERTY(separatorColor, UIColor)
+RCT_EXPORT_VIEW_PROPERTY(currentTextColor, UIColor)
 RCT_CUSTOM_VIEW_PROPERTY(fontSize, NSNumber, VSPicker)
 {
   view.font = [RCTFont updateFont:view.font withSize:json ?: @(defaultView.font.pointSize)];
