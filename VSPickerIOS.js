@@ -125,7 +125,7 @@ class VSPickerIOS extends React.Component<Props, State> {
           items={this.state.items}
           itemSpace={this.props.itemSpace}
           separatorColor={this.props.separatorColor}
-          currentTextColor={this.props.itemStyle.currentTextColor}
+          currentTextColor={this.props.itemStyle ? this.props.itemStyle.currentTextColor : null}
           selectedIndex={this.state.selectedIndex}
           onChange={this._onChange}
           onStartShouldSetResponder={() => true}
