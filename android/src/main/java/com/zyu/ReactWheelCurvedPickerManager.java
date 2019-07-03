@@ -102,6 +102,13 @@ public class ReactWheelCurvedPickerManager extends SimpleViewManager<ReactWheelC
         }
     }
 
+    @ReactProp(name="ignoreTextHeight")
+    public void ignoreTextHeight(ReactWheelCurvedPicker picker, Boolean ignore) {
+        if (picker != null) {
+            picker.setIgnoreTextHeight(ignore);
+        }
+    }
+
     @Override
     public String getName() {
         return REACT_CLASS;
