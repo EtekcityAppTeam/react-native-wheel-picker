@@ -4,11 +4,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Shader;
-import android.os.SystemClock;
-import android.util.AttributeSet;
 
-import com.aigestudio.wheelpicker.core.AbstractWheelPicker;
 import com.aigestudio.wheelpicker.view.WheelCurvedPicker;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
@@ -28,6 +26,7 @@ public class ReactWheelCurvedPicker extends WheelCurvedPicker {
     private final EventDispatcher mEventDispatcher;
     private List<Integer> mValueData;
     private Integer paintColor;
+    private boolean ignoreTextHeight;
 
     public ReactWheelCurvedPicker(ReactContext reactContext) {
         super(reactContext);
@@ -56,20 +55,29 @@ public class ReactWheelCurvedPicker extends WheelCurvedPicker {
         super.drawForeground(canvas);
 
         Paint paint = new Paint();
-        if(paintColor != null){
+        if (paintColor != null) {
             paint.setColor(paintColor);
-        }else{
+        } else {
             paint.setColor(Color.WHITE);
             int colorFrom = 0x00FFFFFF;//Color.BLACK;
             int colorTo = Color.WHITE;
-            LinearGradient linearGradientShader = new LinearGradient(rectCurItem.left, rectCurItem.top, rectCurItem.right/2, rectCurItem.top, colorFrom, colorTo, Shader.TileMode.MIRROR);
+            LinearGradient linearGradientShader = new LinearGradient(rectCurItem.left, rectCurItem.top, rectCurItem.right / 2, rectCurItem.top, colorFrom, colorTo, Shader.TileMode.MIRROR);
             paint.setShader(linearGradientShader);
         }
-        canvas.drawLine(rectCurItem.left, rectCurItem.top, rectCurItem.right, rectCurItem.top, paint);
-        canvas.drawLine(rectCurItem.left, rectCurItem.bottom, rectCurItem.right, rectCurItem.bottom, paint);
+
+        Rect rect = rectCurItem;
+        if (ignoreTextHeight) {
+            // fix 部分手机显示高度过宽
+            int centerY = (rectCurItem.top + rectCurItem.bottom) / 2;
+            rect = new Rect(rectCurItem.left, centerY - itemSpace / 2, rectCurItem.right, centerY + itemSpace / 2);
+
+        }
+
+        canvas.drawLine(rect.left, rect.top, rect.right, rect.top, paint);
+        canvas.drawLine(rect.left, rect.bottom, rect.right, rect.bottom, paint);
     }
 
-    public void setItemLineColor(Integer color){
+    public void setItemLineColor(Integer color) {
         paintColor = color;
     }
 
@@ -77,7 +85,15 @@ public class ReactWheelCurvedPicker extends WheelCurvedPicker {
     public void setItemIndex(int index) {
         super.setItemIndex(index);
         unitDeltaTotal = 0;
-		mHandler.post(this);
+        mHandler.post(this);
+    }
+
+    public boolean isIgnoreTextHeight() {
+        return ignoreTextHeight;
+    }
+
+    public void setIgnoreTextHeight(boolean ignoreTextHeight) {
+        this.ignoreTextHeight = ignoreTextHeight;
     }
 
     public void setValueData(List<Integer> data) {
@@ -95,7 +111,7 @@ class ItemSelectedEvent extends Event<ItemSelectedEvent> {
 
     private final int mValue;
 
-    protected ItemSelectedEvent(int viewTag,  int value) {
+    protected ItemSelectedEvent(int viewTag, int value) {
         super(viewTag);
         mValue = value;
     }
