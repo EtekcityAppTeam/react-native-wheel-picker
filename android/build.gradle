@@ -9,6 +9,11 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
     buildTypes {
         release {
 
@@ -28,6 +33,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 //    api "cn.aigestudio.wheelpicker:WheelPicker:1.0.3"
-    compile ":WheelPicker"
+    implementation(name:'WheelPicker', ext:'aar')
     api 'com.facebook.react:react-native:+'
 }
