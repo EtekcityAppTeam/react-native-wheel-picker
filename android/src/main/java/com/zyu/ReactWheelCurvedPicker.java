@@ -67,7 +67,7 @@ public class ReactWheelCurvedPicker extends WheelCurvedPicker {
 
         Rect rect = rectCurItem;
         if (ignoreTextHeight) {
-            // fix ²¿·ÖÊÖ»úÏÔÊ¾¸ß¶È¹ý¿í
+            // fix ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½Ê¾ï¿½ß¶È¹ï¿½ï¿½ï¿½
             int centerY = (rectCurItem.top + rectCurItem.bottom) / 2;
             rect = new Rect(rectCurItem.left, centerY - itemSpace / 2, rectCurItem.right, centerY + itemSpace / 2);
 
@@ -75,6 +75,10 @@ public class ReactWheelCurvedPicker extends WheelCurvedPicker {
 
         canvas.drawLine(rect.left, rect.top, rect.right, rect.top, paint);
         canvas.drawLine(rect.left, rect.bottom, rect.right, rect.bottom, paint);
+    }
+
+    public void setItemSelectedTextBold(boolean isBold) {
+        super.setItemSelectedTextBold(isBold);
     }
 
     public void setItemLineColor(Integer color) {

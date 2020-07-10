@@ -286,6 +286,7 @@ public class WheelPicker extends View implements IDebug, IWheelPicker, Runnable 
     private String fontPath;
 
     private boolean isDebug;
+    private boolean isSelectedTextBold = false;
 
     public WheelPicker(Context context) {
         this(context, null);
@@ -409,6 +410,10 @@ public class WheelPicker extends View implements IDebug, IWheelPicker, Runnable 
                 mPaint.setTextAlign(Paint.Align.CENTER);
                 break;
         }
+    }
+
+    public void setItemSelectedTextBold(boolean isBlod) {
+        isSelectedTextBold = isBlod;
     }
 
     @Override
@@ -628,11 +633,15 @@ public class WheelPicker extends View implements IDebug, IWheelPicker, Runnable 
                 canvas.restore();
 
                 mPaint.setColor(mSelectedItemTextColor);
+                if(isSelectedTextBold) {
+                    mPaint.setFakeBoldText(true);
+                }
                 canvas.save();
                 if (isCurved) canvas.concat(mMatrixRotate);
                 canvas.clipRect(mRectCurrentItem);
                 canvas.drawText(data, mDrawnCenterX, drawnCenterY, mPaint);
                 canvas.restore();
+                mPaint.setFakeBoldText(false);
             } else {
                 canvas.save();
                 canvas.clipRect(mRectDrawn);

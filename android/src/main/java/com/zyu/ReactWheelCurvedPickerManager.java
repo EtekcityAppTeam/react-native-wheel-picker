@@ -109,6 +109,13 @@ public class ReactWheelCurvedPickerManager extends SimpleViewManager<ReactWheelC
         }
     }
 
+    @ReactProp(name="itemSelectedTextBold")
+    public void isItemSelectedTextBold(ReactWheelCurvedPicker picker, Boolean isBold) {
+        if (picker != null) {
+            picker.setItemSelectedTextBold(isBold);
+        }
+    }
+
     @Override
     public String getName() {
         return REACT_CLASS;
