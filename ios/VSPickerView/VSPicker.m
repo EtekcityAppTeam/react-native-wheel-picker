@@ -87,6 +87,10 @@ numberOfRowsInComponent:(__unused NSInteger)component {
           singleLine.backgroundColor = _separatorColor;
       }
   }
+  // iOS14背景效果去除
+  if (@available(iOS 14.0, *)) {
+    pickerView.subviews.lastObject.backgroundColor = [UIColor clearColor];
+  }
   if (!label) {
     label = [[UILabel alloc] initWithFrame:(CGRect){
       CGPointZero,
