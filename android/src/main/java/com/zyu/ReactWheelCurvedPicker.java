@@ -78,7 +78,7 @@ public class ReactWheelCurvedPicker extends WheelCurvedPicker {
     }
 
     public void setItemSelectedTextBold(boolean isBold) {
-        super.setItemSelectedTextBold(isBold);
+        //super.setItemSelectedTextBold(isBold);
     }
 
     public void setItemLineColor(Integer color) {

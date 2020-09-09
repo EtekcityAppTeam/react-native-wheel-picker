@@ -32,6 +32,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api "cn.hellcwu.wheelpicker:WheelPicker:1.0.3"
+    api "cn.aigestudio.wheelpicker:WheelPicker:1.0.3"
     api 'com.facebook.react:react-native:+'
 }
